@@ -1,0 +1,337 @@
+body {
+    overflow:hidden;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.Page {
+    position: absolute;
+    display:none;
+    width: 100%;
+    height: 100%;
+}
+
+.pageTitle {
+    position: absolute;
+    color: black;
+    font-family:sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+}
+
+
+.h2 {
+    position: absolute;
+    color: black;
+    font-family:sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+}
+
+.TestPage {
+    position: absolute;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    border-width: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.transparent {
+    zoom: 1;
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+
+.menubutton, .settingsMenuButton {
+    position:absolute;
+    width:350px;
+    height:200px;
+    font-size:30px;
+    background-color: black;
+    border: 8px outset grey ;
+    color: white;
+    -webkit-border-radius: 20px;
+}
+
+.StubText {
+    position: absolute;
+    left:130px;
+    font-size:24px;
+    font-weight:400;
+    font-family:sans-serif;
+    font-style:italic; 
+    color:rgb(0, 140, 171);
+    top:600px;
+}
+
+#REPORT {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('Results-600x1024.png');
+    background-repeat: no-repeat;
+}
+
+#ReportTextAreaTop {
+    position:absolute;
+    font-size:28px;
+    background:transparent;
+    top:70px;
+    left:90px; 
+    width:400px;
+}
+
+#ReportTextAreaBottom {
+    position:absolute;
+    font-size:28px;
+    background:transparent;
+    top:400px;
+    left:90px; 
+    width:400px;
+}
+
+.reportTable {
+    width:100%; 
+}
+
+#ReportBackButton {
+    position:absolute;
+    top:774px;
+    left:242px;
+    width:120px;
+    height:120px;
+    background:transparent;
+    font-size: 32pt;
+    font-weight: 400;
+    color:white;
+}
+
+#SPLASH {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #E6E6E6;
+}
+
+#splash-image {
+    position:absolute;
+    top:200px;
+    left:55px;
+    width: 80%;
+}
+
+#LAYOUTSETTINGS {
+    position: absolute;
+    background-color: #E6E6E6;
+}
+
+.settingsRadio {
+    position: absolute;
+    color: black;
+    font-size: 26px;
+    font-weight: 400;
+    font-family:sans-serif;
+}
+
+.settingsRadio {
+    color: black;
+    width: 25px;
+    height: 25px;
+}
+
+#settings-title1 {
+    left: 140px;
+    top: 70px;  
+}
+
+#settings-Layout1 {
+    width: 120px;
+    left: 100px;
+    top: 120px;
+}
+
+#settings-Layout2 {
+    width: 120px;
+    top: 120px;
+    left: 250px;
+}
+
+#settings-Layout3 {
+    width: 120px;
+    top: 120px;
+    left: 400px;
+}
+
+.settingsMenuButton {
+    position: absolute;
+    height: 75px;
+}
+
+#settingsBackButton {
+    top: 900px;
+    left: 120px;
+}
+
+#settingsLoadImageButton {
+    top: 500px;
+    left: 120px;  
+}
+
+#settingsCameraButton {
+    top: 600px;
+    left: 120px;
+}
+
+#STARTUP {
+    position: absolute;
+    background-color: #E6E6E6;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+#startupTopStatusBar {
+    background-color: #002D72;
+    width: 100%;
+    height: 60px;
+}
+
+#clock {
+    position: absolute;
+    color: white;
+    font-size: 32px;
+    font-weight: 800;
+    font-family: sans-serif;
+    left: 20px;
+    top: 10px;
+}
+
+#startupButtonAnalyze {
+    position: absolute;
+    top:100px;
+    left:25px; 
+    width: 550px;
+    height: 270px;
+    background-image: url("../img/ProcessSample_Up.png");
+    background-repeat: no-repeat;
+}
+
+#startupButtonAnalyze:active {
+    background-image: url("../img/ProcessSample_Down.png");
+    background-repeat: no-repeat
+}
+
+#startupInformation {
+    position: absolute;
+    top:410px;
+    left:60px; 
+    width: 210px;
+    height: 200px;
+    background-image: url("../img/Instructions_Up.png");
+    background-repeat: no-repeat;  
+}
+
+#startupInformation:active {
+    background-image: url("../img/Instructions_Down.png");
+    background-repeat: no-repeat;  
+}
+
+#startupSettings {
+    position: absolute;
+    top:410px;
+    left:325px; 
+    width: 210px;
+    height: 200px;
+    background-image: url("../img/Settings_Up.png");
+    background-repeat: no-repeat; 
+}
+
+#startupSettings:active {
+    background-image: url("../img/Settings_Down.png");
+    background-repeat: no-repeat;  
+}
+
+#startupButtonOpen {
+    position: absolute;
+    top:650px;
+    left:60px; 
+    width: 210px;
+    height: 200px;
+    background-image: url("../img/BrowseSamples_Up.png");
+    background-repeat: no-repeat; 
+}
+
+#startupButtonOpen:active {
+    background-image: url("../img/BrowseSamples_Down.png");
+    background-repeat: no-repeat;  
+}
+
+#startupButtonCalibrate {
+    position: absolute;
+    top:650px;
+    left:325px; 
+    width: 210px;
+    height: 200px;
+    background-image: url("../img/Service_Up.png");
+    background-repeat: no-repeat;
+}
+
+#startupButtonCalibrate:active {
+    background-image: url("../img/Service_Down.png");
+    background-repeat: no-repeat;  
+}
+
+#startupLogo {
+    margin: 20px;
+    width: 550px;
+    height: 100px;
+}
+
+#STOREDSAMPLES {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #E6E6E6;
+}
+
+#samplesTitle {
+    position: absolute;
+    top: 50px;
+    left: 120px;
+}
+
+#sampleImages {
+    position: absolute;
+    color: white;
+    background-color: gray;
+    top: 120px;
+    left: 100px;
+    width: 400px;
+    border: 8px outset black ;
+    -webkit-border-radius: 20px;
+}
+
+#samplesSelectButton {
+    top: 900px;
+    left: 120px;
+}
+
+#calibrateStubButton {
+    position: absolute;
+    top:600px;
+    left:150px;
+}
+
+#statusdiv {
+    position: absolute;
+    color: white;
+    left: 475px;
+    top: 120px;
+    width: 120px;
+    height: 50px;
+    font-weight: 300;
+    font-size: 14;
+    visibility: hidden;
+}
+
+

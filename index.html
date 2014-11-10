@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>   
+    <title>Drucker CBC</title>
+    
+    <!--    Include the default drucker stylesheet and the layout 1 skin
+            stylesheet - which may be dynamically changed to another by the 
+            user.
+    -->
+    <link id="mainStylesheet" rel="stylesheet" href="css/drucker.css"  />
+    <link id="skinStylesheet" rel="stylesheet" href="css/Skin1-1024.css"  />
+    
+    <!--    Include standard jquery libraries. ..easing.js is used for animating
+            the touch gestures.
+    -->   
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    
+    <!--    Include our js files. Markers manages the marker objects and
+            their associations with html line elements. Drucker.js 
+            contains all of the other CDC code.
+    --> 
+    <script type="text/javascript" src="js/markers.js"></script>    
+    <script type="text/javascript" src="js/drucker.js"></script>
+    <script type="text/javascript" src="js/touchsupport.js"></script>
+    <script type="text/javascript" src="js/external.js"></script>
+    
+    <!--    this meta command sets the page to the dimensions of the 
+            device it is running on. 
+    -->
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, minimum-scale=1.0" />
+</head>
+    
+<body id="CDCBody" > 
+    
+<!-- *******************  UI Startup code. ********************-->
+    <script>      
+
+        window.onload =CDCLoader;
+
+        function CDCLoader ()
+        {
+            //    Load the event handlers and observers for touch support.
+            //
+            loadTouchSupport ();
+            
+            // At this point, all of the markers have been initialized. Now 
+            // prompt the user to mark the first interface.
+            //
+            updateMarkPrompt ();
+            
+            // Load the sample image information into our Stored
+            // Sample list box on the LoadSamples page.
+            var samples = GetSampleImages ();
+
+            $.each (samples.Samples, function (i, item) {
+                $('#sampleImages').append (
+                    "<option value=" + 
+                    item.Image + ">" + 
+                    item.ID + "</option>");
+            });
+
+            // Set up a little clock on the status bar of the Start
+            // page.
+            setInterval(function() {
+                var d = new Date ();
+                var hours = parseInt (d.getHours(), 10);
+                var mins = parseInt (d.getMinutes(), 10);
+                var ampm = "am";
+                
+                
+                if (hours > 12) {
+                    hours = hours - 12;
+                    ampm = "pm";
+                }
+                
+                if (mins < 10) {
+                    mins = "0" + mins;
+                }
+                
+                var dstr = hours + ":" + mins + " " + ampm;
+                
+                document.getElementById("clock").innerHTML = dstr;
+            }, 5000);
+
+            //    Show the splash, then set a timeout handler to transition to 
+            //    the startup screen.
+            //
+            $('#SPLASH').fadeIn (2000);
+            window.setTimeout("removeSplash()", 3000);
+        }
+        
+        /* removeSplash: transitions from the Splash screen to Startup.
+        */
+        function removeSplash () 
+        {
+            $('#SPLASH').fadeOut (1000);
+            $('#STARTUP').fadeIn(2000);
+        }
+   </script>
+
+<!-- *******************  Splash Page ********************-->
+    
+    <div id="SPLASH" class="Page">
+        <img id="splash-image" 
+             src="img/drucker-diagnostics-splash2.png" />
+    </div>
+
+<!-- *******************  Startup Page ********************-->
+    
+    <div id="STARTUP" class="Page" >
+            
+        <div id="startupTopStatusBar">
+            <div id="clock"></div>
+        </div>
+        
+        <div style="height: 810px">
+            <button id="startupButtonAnalyze" type="button" 
+                    class="menubutton" 
+                    onclick="navigateFromTo ('#STARTUP', '#LAYOUT')" />
+            
+            <button id="startupInformation" type="button" 
+                    class="menubutton"
+                    onclick="alert ('View Information');" />
+     
+            <button id="startupSettings" type="button" 
+                    class="menubutton"
+                    onclick="navigateFromTo ('#STARTUP', '#LAYOUTSETTINGS')" />
+
+            <button id="startupButtonOpen" type="button" class="menubutton"
+                    onclick="alert ('View Stored Results');" />
+            
+            <button id="startupButtonCalibrate" type="button" class="menubutton" 
+                    onclick="alert ('Run Calibration Rod');" />
+        </div> 
+        <img id="startupLogo" 
+             src="img/drucker-diagnostics-splash2.png" />
+    </div>
+    
+<!-- *******************  LAYOUT Page ********************-->
+<!--        This is the blood sample analysis page.       -->
+
+    <div id="LAYOUT" class="Page" >
+        
+<!--    -------------------------------------------------------------------- 
+        These placeholder elements are all hydrated during the document 
+        load process.
+-->     
+<!--    The main canvas onto which the sample image is drawn and scrolled.-->
+        <canvas id="cbcCanvas"></canvas>  
+        
+<!--    Holds the preview image and is overlaid by svgPreviewThumbPanel.
+-->
+        <img id="previewImg" />
+        
+<!--    This is used for touch support, specifically swipe gestures on the
+        cbcCanvas (main image). layoutImage has a corresponding "top" css 
+        style which is an animation target and is also observed for scrolling.  
+-->
+        <img id="layoutImage" />
+
+<!--    This panel is used to draw the preview thumb rectangle and preview
+        marker lines. The line elements represent each interface marker. The
+        number of line elements in this panel must match the number of line
+        elements in the svgCBCPanel.
+-->
+        <svg id="svgPreviewThumbPanel" >  
+            <rect id="svgPreviewThumb" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,0,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(0,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(0,0,255);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,0,255);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,128,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(128,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(128,128,255);stroke-width:3;" />
+        </svg>
+        
+<!--    This panel overlays the cbcCanvas and image for the main sample.
+        It is used to draw and scroll the marker lines for the sample. 
+        The line elements represent those marker lines. The number of 
+        these line elements must match the number of line elements in the
+        svgPreviewThumbPanel.
+-->
+        <svg id="svgCBCPanel" >
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,0,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(0,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(0,0,255);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,0,255);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(255,128,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(128,255,0);stroke-width:3;" />
+            
+            <line x1="0" y1="0" x2="200" y2="0" visibility="hidden"
+                  style="stroke:rgb(128,128,255);stroke-width:3;" />
+        </svg>
+        
+<!--    -------------------------------------------------------------------- 
+        Rehydrate the elements on the LAYOUT page that are associated with the 
+        main sample image. 
+-->     
+        <script>
+            
+/*          Establish the main canvas element and it's context onto which 
+            the main image will be drawn. Create the image object which will
+            house the main image and will be drawn onto the canvas.
+*/
+            var canvas = document.getElementById('cbcCanvas');
+            var context = canvas.getContext('2d');
+            var image = new Image();
+
+/*          When the image is loaded, a portion of it will be drawn onto the 
+            canvas. That portion is dictated by the x and y scroll values 
+            and scaling constants defined in drucker.js.
+*/
+            image.onload = function () {
+                
+                updateCBCImage(context, image); 
+
+            };
+
+/*          For now we're hard-coding the sample image to load. This will need to be
+            embellished to load from a set of images.
+*/
+            image.src = 'img/TestTubeImage.png';
+            
+/*          Load the preview image with the same image. This will also need to be 
+            enhanced.
+*/
+            document.getElementById('previewImg').src =
+                    'img/TestTubeImage.png';  
+            
+/*          Now that the preview image and svg overlay are ready, intialize and draw
+            the preview thumb rectangle and initialize the markers for the main and
+            preview images.
+*/ 
+            initializePreviewThumb();
+            updatePreviewPosition();
+            initializeMarkers ();
+
+        </script>  
+     
+<!--    -------------------------------------------------------------------- 
+        Define the layout feature buttons and marker indicator.
+-->
+        <div>            
+            <button id="FastUpButton" type="button" 
+                onclick="scrollUpFast(context, image)">
+                </button> 
+
+            <button id="FastDownButton" type="button"
+                onclick="scrollDownFast(context, image)">
+                </button>
+
+            <button id="SlowUpButton" type="button" 
+                onclick="scrollUpSlow(context, image)">
+                </button>
+
+            <button id="SlowDownButton" type="button"
+                onclick="scrollDownSlow(context, image)">
+                </button>  
+            
+            <button id="LayoutBackButton" type="button"
+                onclick="undoMark ()">
+                </button>  
+            
+            <div id="MarkImage" ></div>
+            
+            <button id="LayoutMarkButton" type="button"
+                onclick="addMark ()">
+                </button> 
+                        
+            <button id="LayoutSettingsButton" type="button"
+                onclick="navigateFromTo ('#LAYOUT', '#LAYOUTSETTINGS');">
+                </button> 
+                                  
+            <button id="LayoutCameraButton" type="button"
+                onclick="alert ('Camera Click');">
+                </button> 
+            
+            <button id="TypeWriterButton" type="button"
+                onclick="alert ('Typewriter Click');">
+                </button> 
+            
+            <div id="interfaceLabel">Select:</div>
+            
+<!--        This is a debug div used as a console for touch events. It should 
+            regularly be hidden.
+-->
+            <div id="statusdiv">Touch Status</div>
+        </div> 
+    </div>  
+      
+<!-- *******************  Analysis Report ********************-->   
+    
+    <div id="REPORT"  class="Page">
+                
+        <div id="ReportTextAreaTop" >
+            <table class="reportTable">
+            <tr><td width="60%">Results</td><td width="20%" align="right"></td><td width="20%">Units</td></tr>
+            <tr><td>Hematocrit:</td><td>45</td><td>%</td></tr>
+            <tr><td>Hemoglobin:</td><td>15</td><td>g/dL</td></tr>
+            <tr><td>MCHC:</td><td>30</td><td>g/dL</td></tr>
+            <tr><td>WBC:</td><td>10</td><td>10^9/L</td></tr>
+            <tr><td>GRANS:</td><td>6</td><td>10^9/L</td></tr>
+            <tr><td>LM:</td><td>4</td><td>10^9/L</td></tr> 
+            <tr><td>PLT:</td><td>150</td><td>10^9/L</td></tr> 
+            </table>
+        </div>
+        
+        <div id="ReportTextAreaBottom" >
+            <table class="reportTable" >
+            <tr><td width="60%" >Control</td><td width="20%" align="right" ></td><td width="20%">Units</td></tr>
+            <tr><td>WBC_ Cont:</td><td>X</td><td>10^9/L</td></tr>
+            <tr><td>LM_Cont:</td><td>X</td><td>10^9/L</td></tr>
+            <tr><td>PLT_Cont:</td><td>X</td><td>10^9/L</td></tr>
+            </table>
+        </div>
+                        
+        <button type="button" id="ReportBackButton"
+            onclick="navigateFromTo ('#REPORT', '#LAYOUT')">Back</button>
+    </div>
+      
+<!-- *******************  Layout Settings  ********************-->   
+    
+    <div id="LAYOUTSETTINGS" class="Page" >  
+<!--
+        -----------------------------------------------------------------
+        Enable the user to select one of three available layout options.   
+-->
+        <div class="pageTitle" id="settings-title1" >Process Image Layout</div>
+
+        <div>
+            <input class="settingsRadio" id="rbLayout1" style="top:330px;left:140px;"
+                   type="radio" name="layout" value="layout1">
+            
+            <label for="rbLayout1">           
+                <img class="h2" id="settings-Layout1", src="img/Layout%201.png" />
+                
+                <label class="h2" for="rbLayout1" style="top:360px;left:110px;">
+                Layout 1</label>
+            </label>
+            
+            <input class="settingsRadio" id="rbLayout2" style="top:330px;left:290px;"
+                   type="radio" name="layout" value="layout2">
+            
+            <label for="rbLayout2">
+                <img class="h2" id="settings-Layout2", src="img/Layout%202.png" />  
+            
+                <label class="h2" for="rbLayout2" style="top:360px;left:260px;">
+                Layout 2</label>
+            </label>
+            
+            <input class="settingsRadio" id="rbLayout3" style="top:330px;left:440px;"
+                   type="radio" name="layout" value="layout3">
+            
+            <label for="rbLayout3">
+                <img class="h2" id="settings-Layout3", src="img/Layout%203.png" /> 
+                
+                <label class="h2" for="rbLayout3" style="top:360px;left:410px;">
+                Layout 3</label>
+            </label>     
+        </div>
+<!--
+        -----------------------------------------------------------------
+        The Load Sample Image and the Adjust Camera Settings buttons are just
+        stubbed for now.
+-->       
+        <button id="settingsLoadImageButton" type="button" class="settingsMenuButton"
+                onclick="navigateFromTo ('#LAYOUTSETTINGS', '#STOREDSAMPLES');"
+                >Load Sample Image</button>
+        
+        <button id="settingsCameraButton" type="button" class="settingsMenuButton"
+                onclick="alert ('Adjust Camera Settings');"
+                >Adjust Camera Settings</button>
+        
+<!--
+        -----------------------------------------------------------------
+        The Back button will change the layout css based on the selected
+        Layout radio button, it then navigates back to the Layout page.
+-->  
+        <button id="settingsBackButton" type="button" class="settingsMenuButton"
+                onclick="settingsBackButtonClicked ();"
+                >Back</button>
+        
+        <script>
+            document.getElementById('rbLayout1').checked = true;
+        </script>
+    </div>
+    
+<!-- *******************  Open Stored Sample  ********************-->   
+    <div id="STOREDSAMPLES" class="Page">
+        <div id="samplesTitle" class="pageTitle">
+            Open a Stored Sample
+        </div>
+<!-- 
+        This list box of sample images is filled upon document load via
+        external.js: GetSampleImages.
+-->
+        <div>
+            <select id="sampleImages" class="h2" 
+                    size="5" onchange="imageSelected();"></select>
+        </div>
+        
+        <div>
+            <div id="testImageFilename"
+                style="position: absolute; 
+                       top: 400px; 
+                       left: 50px;
+                       font-size: 24px;">
+                Selected File Name:
+            </div>
+        </div>
+        
+        <button id="samplesSelectButton" type="button"
+                class="settingsMenuButton"
+                onclick="navigateBack ('#STOREDSAMPLES')"
+                >Back</button>
+    </div>
+    
+<!-- *******************  Run Calibration  ********************-->   
+    <div id="CALIBRATE" class="Page">
+        <div class=StubText>
+            Run Calibration
+        </div>
+        <img id="splash-logo" src="img/drucker-diagnostics-splash.png" />
+        <button id="calibrateStubButton" type="button" class="menubutton"
+                onclick="navigateFromTo ('#CALIBRATE', '#STARTUP')"
+                >Back</button>
+    </div>
+</body>
+</html>

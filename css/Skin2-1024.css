@@ -1,0 +1,254 @@
+#LAYOUT { 
+    background-color: #E6E6E6;
+    background-image: url('Skin2-1024/LayoutBackground.png');
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+#cbcCanvas {
+    position: absolute;
+    left: 120px;
+    top: 40px;
+    width: 410px;    
+    height: 625px;
+    z-index: -1;
+}
+
+#svgCBCPanel {
+    position: absolute;
+    left: 120px;
+    top: 40px;
+    width: 410px;    
+    height: 625px;
+    z-index: -1;
+}
+
+#previewImg {
+    position: absolute;
+    left: 9px;
+    top: 223px;
+    width: 50px;
+    height: 770px;
+}
+
+#MarkImage {
+    position: absolute;
+    top:250px;
+    left:88px;
+    width: 510px;
+    height: 200px;
+    background-image: url("Skin2-1024/Marker_Position.png");
+    background-repeat: no-repeat;
+}
+
+#svgPreviewThumbPanel {
+    position: absolute;
+    left: 3px;
+    top: 225px;
+    width: 60px;
+    height: 778px;
+    z-index: +1;
+}
+
+#svgPreviewThumb {
+    stroke:rgb(106,181,197);
+    fill: none;
+    stroke-width:4;
+}
+
+#SlowUpButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Up_Slow_Button.png');
+    background-repeat: no-repeat;
+    left: 230px;
+    top: 760px;
+    width: 100px;
+    height: 100px;
+}
+
+#SlowUpButton:hover {
+    background: url('Skin2-1024/Up/Up_Slow_Button.png');
+    background-repeat: no-repeat;
+}
+
+#SlowUpButton:active {
+    background: url('Skin2-1024/Down/Up_Slow_Button.png');
+    background-repeat: no-repeat;
+}
+
+#SlowDownButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Down_Slow_Button.png');
+    background-repeat: no-repeat;
+    left: 345px;
+    top: 760px;
+    width: 100px;
+    height: 100px;
+}
+
+#SlowDownButton:hover {
+    background: url('Skin2-1024/Up/Down_Slow_Button.png');
+    background-repeat: no-repeat;
+}
+
+#SlowDownButton:active {
+    background: url('Skin2-1024/Down/Down_Slow_Button.png');
+    background-repeat: no-repeat;
+}
+
+#FastUpButton {
+    position: absolute;
+    visibility: hidden;
+    background: url('Skin2-1024/Up/Up_Fast_Button.png');
+    background-repeat: no-repeat;
+    left: 115px;
+    top: 765px;
+    width: 85px;
+    height: 90px;
+}
+
+#FastUpButton:hover {
+    background: url('Skin2-1024/Up/Up_Fast_Button.png');
+    background-repeat: no-repeat;
+}
+
+#FastUpButton:active {
+    background: url('Skin2-1024/Down/Up_Fast_Button.png');
+    background-repeat: no-repeat;
+}
+
+#FastDownButton {
+    position: absolute;
+    visibility: hidden;
+    background: url('Skin2-1024/Up/Down_Fast_Button.png');
+    background-repeat: no-repeat;
+    left: 475px;
+    top: 765px;
+    width: 85px;
+    height: 90px;
+}
+
+#FastDownButton:hover {
+    background: url('Skin2-1024/Up/Down_Fast_Button.png');
+    background-repeat: no-repeat;
+}
+
+#FastDownButton:active {
+    background: url('Skin2-1024/Down/Down_Fast_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutBackButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Back_Button.png');
+    background-repeat: no-repeat;
+    left: 467px;
+    top: 760px;
+    width: 100px;
+    height: 100px; 
+}
+
+#LayoutBackButton:hover {
+    background: url('Skin2-1024/Up/Back_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutBackButton:active {
+    background: url('Skin2-1024/Down/Back_Button.png');
+    background-repeat: no-repeat;
+}
+
+#TypeWriterButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Typewriter_Button.png');
+    background-repeat: no-repeat;
+    top: 890px;
+    left: 467px;
+    width: 100px;
+    height: 100px;  
+}
+
+#TypeWriterButton:hover {
+    background: url('Skin2-1024/Up/Typewriter_Button.png');
+    background-repeat: no-repeat;
+}
+
+#TypeWriterButton:active {
+    background: url('Skin2-1024/Down/Typewriter_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutMarkButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Mark_Button.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    left: 230px;
+    top: 895px;
+    width: 210px;
+    height: 90px;
+}
+
+#LayoutMarkButton:hover {
+    background: url('Skin2-1024/Up/Mark_Button.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#LayoutMarkButton:active {
+    background: url('Skin2-1024/Down/Mark_Button.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#LayoutSettingsButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Options_Button.png');
+    background-repeat: no-repeat;
+    left: 105px;
+    top: 890px;
+    width: 100px;
+    height: 100px;    
+}
+
+#LayoutSettingsButton:hover {
+    background: url('Skin2-1024/Up/Options_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutSettingsButton:active {
+    background: url('Skin2-1024/Down/Options_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutCameraButton {
+    position: absolute;
+    background: url('Skin2-1024/Up/Camera_Button.png');
+    background-repeat: no-repeat;
+    left: 105px;
+    top: 760px;
+    width: 100px;
+    height: 100px;  
+}
+
+#LayoutCameraButton:hover {
+    background: url('Skin2-1024/Up/Camera_Button.png');
+    background-repeat: no-repeat;
+}
+
+#LayoutCameraButton:active {
+    background: url('Skin2-1024/Down/Camera_Button.png');
+    background-repeat: no-repeat;
+}
+
+#interfaceLabel {
+    position: absolute;
+    color: #7F0000;
+    font-size: 28px;
+    font-weight: 700;
+    font-family: sans-serif;
+    top: 685px;
+    width: 100%;
+    text-align: center;
+}
+

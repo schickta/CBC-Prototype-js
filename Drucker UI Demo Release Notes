@@ -1,0 +1,128 @@
+
+===================================================================================
+Release Notes: Drucker CBC Prototype
+UI Demo, 10/7/2014
+
+This release incorporates Drucker's input from the UI release of 9/26 including:
+
+1) The main screen should have some indicator of what the device is.  I’m not sure it needs the Drucker Diagnostics logo or a Manual Reader logo of some kind.
+
+2) Add a “Settings” button on the main screen.
+
+3) Add a header with Drucker Diagnostics and contains information such as date, time, serial number and language. (Partial for now).
+
+4) Do not use dark grey and black color scheme.  Use white or light grey.
+
+5) Use graphical based buttons. See attached GUI examples
+
+6) The interfaces do not stay put relative to the layer when the tube is moved. 
+
+7) Allow the operator to move the box on the “full tube” image by hand?  It would be nice to be able to slide it along the tube. - modified, the image will scroll to the location touched on the preview.
+
+8) Set zoom-in image window has the same height as the window of the full-length view. 
+
+9) Reduce the size of blue triangles at the end of the selection line overlay. 
+
+10) There are no indications on which interfaces have been identified.
+
+11) Remove two red lines sandwiching the yellow line.
+
+Setting up the demo:
+
+1. You've received a .zip file which contains all of the UI code, consisting of HTML, javascript, CSS, and images. Extract the contents of the .zip file into a folder. 
+
+2. You will see index.html in the folder to which the .zip was extracted. This is the file that you will launch into Google Chrome as follows.
+
+3. Run Google Chrome. CLick F12 to bring up the developer tools. 
+
+3a. In the developer tools window will be an icon that looks like a smart phone. Click it, as it will enable you to select an emulation mode. We'll emulate a kindle fire which has a similar screen configuration as the prototype, including touch emulation.
+
+3b. On the Emulation screen, select these options:
+Model = Amazon Kindle Fire (First Generation)
+Click the little "switch" button to swap the resolution dimensions to 600 x 1024
+Check Emulate Mobile, Enable Text Autosizing and Shrink to fit.
+
+4. Now drag index.html into the address bar of your Google Chrome browser to launch the prototype. You can resize the browser to a comfortable size.
+
+5. Notice that in this emulation mode, that instead of a mouse cursor a circle is displayed. This indicates that the browser is emulating touch, and the circle represents a finger overing over the screen. Click and hold the mouse button to simulate a touch action. Lifting the mouse button simulates lifing your finger from the screen.
+
+
+===================================================================================
+Release Notes: Drucker CBC Prototype
+UI Demo, 10/3/2014
+
+This release demonstrates three layouts for the image processing screen. It also sets up the UI framework for navigating between screens. Except where noted below, the image processing UI is somewhat functional in enabling scrolling of a test image, marking, undoing marks, and image preview. The ability to dynamically change layouts is also functional, although layout selection capability doesn't yet follow the design guidelines.
+
+Setting up the demo:
+
+1. You've received a .zip file which contains all of the UI code, consisting of HTML, javascript, CSS, and images. Extract the contents of the .zip file into a folder. 
+
+2. You will see index.html in the folder to which the .zip was extracted. This is the file that you will launch into Google Chrome as follows.
+
+3. Run Google Chrome. CLick F12 to bring up the developer tools. 
+
+3a. In the developer tools window will be an icon that looks like a smart phone. Click it, as it will enable you to select an emulation mode. We'll emulate a kindle fire which has a similar screen configuration as the prototype, including touch emulation.
+
+3b. On the Emulation screen, select these options:
+Model = Amazon Kindle Fire (First Generation)
+Click the little "switch" button to swap the resolution dimensions to 600 x 1024
+Check Emulate Mobile, Enable Text Autosizing and Shrink to fit.
+
+4. Now drag index.html into the address bar of your Google Chrome browser to launch the prototype. You can resize the browser to a comfortable size.
+
+5. Notice that in this emulation mode, that instead of a mouse cursor a circle is displayed. This indicates that the browser is emulating touch, and the circle represents a finger overing over the screen. Click and hold the mouse button to simulate a touch action. Lifting the mouse button simulates lifing your finger from the screen.
+
+New Things to look at:
+
+1. When the demo starts a splash screen will display, then you will automatically be taken to the Start Screen. Click the "Run Patient Sample" button to go to the "Process Image" screen.
+
+2. Touch capability has been added to the Process Image Screen in order to provide addition ways to scroll the main image to a desired location:
+
+2a. Drag to Scroll: Touch the main image and drag up or down on the image. The application will track your finger and scroll the image.
+
+2b. Swipe to Scroll to the top or bottom: Swiping enables you to quickly scroll to the top or bottom of the main image. Swipes are somewhat difficult to master in emulation mode with a mouse, but doable and worth it. Touch the main image and quickly swipe up or down. When swiping in this mode, it's important that your finger touches the screen and lifts from the screen both while on the main image.
+
+2c. Preview Touch: Scroll directly to a location by touching the preview image. The main image will scroll to that location.
+
+Things that don't yet work on the Process Image screen:
+
+1. Scrolling the image up or down while positioned at the top or bottom of the image isn't clean yet. For example, when at the top of the image and clicking the scroll up arrow.
+
+2. The initial position of the image is top. This will be changed subsequently.
+
+3. Only four markers are currently implemented.
+
+4. When a marker is "undone", the main image should be scrolled to the prior marker's position.
+
+=================================================================================
+Release Notes: Drucker CBC Prototype
+UI Demo, 9/26/2014
+
+Things to look at:
+
+1. When the demo starts a splash screen will display, then you will automatically be taken to the Start Screen. Click the "Run Patient Sample" button to go to the "Process Image" screen.
+
+2. The scroll buttons work on the image and the preview.
+
+3. The Mark button works, displaying marks of various colors on the image and preview. Only four marks are available, although more will be added later. 
+
+4. The Undo button works in that it will remove the marks in reverse order. If there are no marks when the button is clicked, you will be taked back to the Start Screen.
+
+5. Clicking the Settings button will dynamically toggle the layouts. Later layouts will be selectable via the Settings Screen, the current implementation is a short term mechanism.
+
+Things that don't yet work on the Process Image screen:
+
+1. Scrolling the image up or down while positioned at the top or bottom of the image isn't clean yet. For example, when at the top of the image and clicking the scroll up arrow.
+
+2. The initial position of the image is top. This will be changed subsequently.
+
+3. Only four markers are currently implemented.
+
+4. The mark position on the image slowly moves away from it's relative position as the image is slow-scrolled.
+
+
+
+
+ 
+
+
